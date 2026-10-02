@@ -1,160 +1,229 @@
-\# Universal Project Maintenance
+---
+name: universal-project-maintenance
+description: Universal engineering orchestrator for safely maintaining, debugging, testing, refactoring, securing, optimizing, and preparing software projects for production across any stack, repository, runtime, framework, and deployment platform.
+---
+
+# Universal Project Maintenance
+
+Universal engineering workflow and orchestration layer for maintaining software projects safely, systematically, and efficiently.
+
+This skill applies across languages, frameworks, runtimes, package managers, repositories, hosting providers, and deployment platforms.
+
+Its purpose is to:
+
+- understand before changing;
+- identify the smallest correct solution;
+- route work to relevant specialist skills;
+- protect existing behavior;
+- verify changes with real evidence;
+- detect regressions;
+- leave the repository in a clean and explainable state.
 
+This skill is an orchestrator, not a replacement for specialist skills.
 
+---
 
-Gunakan skill ini untuk project software apa pun.
+# 1. Mission
+
+For every task:
+
+1. Understand the request.
+2. Inspect the project.
+3. Determine the affected system boundaries.
+4. Classify the task and risk.
+5. Identify relevant specialist skills.
+6. Create a proportional implementation plan.
+7. Implement the smallest correct change.
+8. Verify the actual result.
+9. Review the resulting diff.
+10. Report what changed and what was actually verified.
 
+Never confuse:
+
+- code changed with task completed;
+- build success with behavioral correctness;
+- lack of errors with proof of correctness;
+- an attempted command with a successful verification.
+
+---
+
+# 2. Safety Rules
+
+Never:
+
+- invent files;
+- invent commands;
+- invent test results;
+- claim verification without running the relevant check;
+- expose secrets;
+- print API keys or tokens;
+- modify `.env` files unless explicitly required;
+- rotate credentials unless explicitly requested;
+- delete data without confirmation;
+- perform destructive operations without confirmation;
+- deploy or publish without explicit confirmation;
+- rewrite unrelated parts of the project;
+- introduce dependencies without justification.
+
+Preserve:
+
+- existing APIs;
+- existing behavior;
+- project conventions;
+- package manager;
+- lockfiles;
+- database integrity;
+- authentication boundaries;
+- deployment configuration.
 
+---
 
-\## Prinsip utama
+# 3. Task Classification
 
+Classify every task before implementation.
 
+Possible categories:
 
-\- Audit project sebelum mengubah file.
+- feature
+- bug fix
+- debugging
+- refactor
+- testing
+- security
+- performance
+- accessibility
+- UI/UX
+- API
+- database
+- authentication
+- authorization
+- dependency
+- migration
+- scraping
+- aggregation
+- deployment
+- configuration
+- documentation
 
-\- Pahami framework, package manager, build system, dan deployment target.
+Multiple categories may apply.
 
-\- Jangan mengubah file di luar scope task.
+---
 
-\- Jangan mengarang hasil verification.
+# 4. Project Discovery
 
-\- Setelah perubahan:
+Before editing, inspect the repository.
 
-&#x20; 1. jalankan type check jika tersedia
+Identify:
 
-&#x20; 2. jalankan lint jika tersedia
+## Runtime
 
-&#x20; 3. jalankan test jika tersedia
+Look for:
 
-&#x20; 4. jalankan production build jika tersedia
+- Node.js
+- Bun
+- Deno
+- Python
+- PHP
+- Go
+- Rust
+- Java
+- .NET
+- other detected runtimes
 
-&#x20; 5. git diff
+## Framework
 
-&#x20; 6. git status --short
+Detect from repository files and dependencies.
 
-\- Jangan deploy/publish tanpa konfirmasi user.
+Examples:
 
-\- Jangan mengubah credential, API key, secret, atau .env tanpa instruksi eksplisit.
+- Next.js
+- React
+- Vite
+- Laravel
+- Express
+- NestJS
+- Django
+- FastAPI
+- Flutter
+- etc.
 
+Never assume the framework from the folder name alone.
 
+## Package manager
 
-\## Workflow
+Detect from lockfiles and project configuration.
 
+Examples:
 
+- npm
+- pnpm
+- yarn
+- bun
+- Composer
+- pip
+- uv
+- cargo
+- go modules
 
-\### Audit
+Use the existing package manager.
 
-Identifikasi:
+## Build / test / lint
 
-\- framework
+Inspect actual project scripts before executing commands.
 
-\- runtime
+Never assume:
 
-\- package manager
+- `npm test`
+- `npm run lint`
+- `npm run build`
+- `npm run typecheck`
 
-\- dependencies
+exists.
 
-\- scripts
+---
 
-\- environment variables
+# 5. Monorepo Detection
 
-\- external APIs
+Determine whether the repository contains:
 
-\- authentication
+- multiple applications;
+- workspaces;
+- packages;
+- services;
+- shared libraries;
+- frontend/backend directories;
+- infrastructure directories.
 
-\- database
+Inspect relevant files such as:
 
-\- deployment platform
+- `package.json`
+- workspace configuration
+- `turbo.json`
+- `nx.json`
+- `pnpm-workspace.yaml`
+- Docker configuration
+- CI configuration
 
-\- konfigurasi security
+Do not run repository-wide commands when only one package is affected unless appropriate.
 
+---
 
+# 6. Git Intelligence
 
-\### Planning
+Before significant changes inspect:
 
-Sebelum edit:
+- `git status`
+- recent commits
+- current branch
+- relevant file history
+- existing uncommitted changes
 
-\- jelaskan file yang akan diubah
+Never overwrite unrelated user changes.
 
-\- jelaskan dependency yang relevan
+When useful, inspect:
 
-\- identifikasi compatibility risk
-
-\- tentukan verification command
-
-
-
-\### Implementation
-
-\- ubah seminimal mungkin
-
-\- pertahankan API dan behavior existing
-
-\- jangan melakukan refactor yang tidak diminta
-
-
-
-\### Verification
-
-Gunakan command yang benar-benar tersedia di project.
-
-
-
-Contoh:
-
-\- npm run typecheck
-
-\- npm run lint
-
-\- npm test
-
-\- npm run build
-
-\- cargo check
-
-\- go test ./...
-
-\- dotnet build
-
-\- php artisan test
-
-
-
-Jangan menyebut PASS jika command belum benar-benar dijalankan.
-
-
-
-\### Git safety
-
-Setelah selesai:
-
-\- git diff
-
-\- git status --short
-
-\- pastikan hanya file dalam scope yang berubah
-
-
-
-\### Deployment
-
-Deployment selalu merupakan tahap terpisah.
-
-
-
-Jangan:
-
-\- git push
-
-\- firebase deploy
-
-\- vercel deploy
-
-\- npm publish
-
-\- production migration
-
-
-
-tanpa konfirmasi user.
-
+```text
+git log
+git blame
+git diff
+git show
